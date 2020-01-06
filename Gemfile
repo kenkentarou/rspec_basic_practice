@@ -16,6 +16,10 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  # Capybara本体
+  gem 'capybara'
+  # Capybaraが利用するドライバを任意に追加する
+  gem 'selenium-webdriver'
 end
 
 group :development do
