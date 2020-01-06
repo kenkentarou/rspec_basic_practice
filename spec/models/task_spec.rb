@@ -37,7 +37,7 @@ RSpec.describe Task, type: :model do
 
     context 'titleが一意でない時' do
       it 'is invalid with a duplicate title' do
-        FactoryBot.create(:task, title: 'やゆよ')
+        create(:task, title: 'やゆよ')
         task_unique = build(:task, title: 'やゆよ')
         task_unique.valid?
         expect(task_unique.valid?).to eq(false)
