@@ -14,6 +14,7 @@ RSpec.describe Task, type: :model do
       it 'is invalid without a title' do
         task = build(:task, title: nil)
         task.valid?
+        expect(task.valid?).to eq(false)
         expect(task.errors[:title]).to include("can't be blank")
       end
     end
@@ -22,6 +23,7 @@ RSpec.describe Task, type: :model do
       it 'is invalid without a status' do
         task = build(:task, status: nil)
         task.valid?
+        expect(task.valid?).to eq(false)
         expect(task.errors[:status]).to include("can't be blank")
       end
     end
@@ -31,6 +33,7 @@ RSpec.describe Task, type: :model do
         duplicate_task
         task = build(:task, title: duplicate_task.title)
         task.valid?
+        expect(task.valid?).to eq(false)
         expect(task.errors[:title]).to include("has already been taken")
       end
     end
