@@ -34,7 +34,7 @@ RSpec.describe Task, type: :model do
     context 'titleが一意でない時' do
       it 'is invalid with a duplicate title' do
         duplicate_task
-        task = build(:task, title: 'おおおおお')
+        task = build(:task, title: duplicate_task.title)
         expect(task.valid?).to eq(false)
       end
     end
