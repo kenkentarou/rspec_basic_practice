@@ -13,21 +13,16 @@ RSpec.describe Task, type: :model do
     context 'titleが入力されていない時' do
       it 'is invalid without a title' do
         task = build(:task, title: nil)
-        expect(task.valid?).to eq(false)
+        task.valid?
+        expect(task.errors[:title]).to include("can't be blank")
       end
     end
 
     context 'statusが入力されていない時' do
       it 'is invalid without a status' do
         task = build(:task, status: nil)
-        expect(task.valid?).to eq(false)
-      end
-    end
-
-    context 'title,statusが入力されていない時' do
-      it 'is invalid without title,status' do
-        task = build(:task, title: nil, status: nil)
-        expect(task.valid?).to eq(false)
+        task.valid?
+        expect(task.errors[:status]).to include("can't be blank")
       end
     end
 
@@ -35,7 +30,8 @@ RSpec.describe Task, type: :model do
       it 'is invalid with a duplicate title' do
         duplicate_task
         task = build(:task, title: duplicate_task.title)
-        expect(task.valid?).to eq(false)
+        task.valid?
+        expect(task.errors[:title]).to include("has already been taken")
       end
     end
   end
