@@ -19,7 +19,7 @@ group :development, :test do
   # Capybara本体
   gem 'capybara'
   # Capybaraが利用するドライバを任意に追加する
-  gem 'selenium-webdriver'
+  gem 'webdrivers'
   gem 'faker'
 end
 
