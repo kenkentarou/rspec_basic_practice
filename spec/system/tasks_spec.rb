@@ -1,16 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :system do
+  include LoginMacros
   let(:user) { create(:user, email: 'a@example.com') }
   let(:task) { create(:task, title: 'プログラミング', user: user) }
   let(:other_user) { create(:user) }
   let(:duplicate_task) { create(:task, title: 'あかさたな', user: other_user) }
   before do
-    user
-    visit login_path
-    fill_in 'Email', with: 'a@example.com'
-    fill_in 'Password', with: 'password'
-    click_button 'Login'
+    login(user)
   end
   describe 'ログイン後' do
     describe 'タスクの新規登録及び削除' do

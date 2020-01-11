@@ -49,11 +49,7 @@ RSpec.describe User, type: :system do
   end
   describe 'ログイン後' do
     before do
-      user
-      visit login_path
-      fill_in 'Email', with: 'a@example.com'
-      fill_in 'Password', with: 'password'
-      click_button 'Login'
+      login(user)
     end
     describe 'ユーザー編集' do
       context 'フォームの入力値が正常' do
@@ -92,11 +88,7 @@ RSpec.describe User, type: :system do
       end
       context '他ユーザーの編集ページにアクセス' do
         before do
-          user
-          visit login_path
-          fill_in 'Email', with: 'a@example.com'
-          fill_in 'Password', with: 'password'
-          click_button 'Login'
+          login(user)
         end
         it 'アクセスが失敗する' do
           other_user
@@ -109,11 +101,7 @@ RSpec.describe User, type: :system do
   describe 'マイページ' do
     context 'タスクを作成' do
       before do
-        user
-        visit login_path
-        fill_in 'Email', with: 'a@example.com'
-        fill_in 'Password', with: 'password'
-        click_button 'Login'
+        login(user)
       end
       it '新規作成したタスクが表示される' do
         visit new_task_path
