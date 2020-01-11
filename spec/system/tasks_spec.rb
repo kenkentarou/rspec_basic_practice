@@ -7,7 +7,7 @@ RSpec.describe Task, type: :system do
   let(:other_user) { create(:user) }
   let(:duplicate_task) { create(:task, title: 'あかさたな', user: other_user) }
   before do
-    login(user)
+    login_as(user)
   end
   describe 'ログイン後' do
     describe 'タスクの新規登録及び削除' do
