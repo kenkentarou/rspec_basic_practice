@@ -49,7 +49,7 @@ RSpec.describe User, type: :system do
   end
   describe 'ログイン後' do
     before do
-      login(user)
+      login_as(user)
     end
     describe 'ユーザー編集' do
       context 'フォームの入力値が正常' do
@@ -88,12 +88,13 @@ RSpec.describe User, type: :system do
       end
       context '他ユーザーの編集ページにアクセス' do
         before do
-          login(user)
+          login_as(user)
         end
         it 'アクセスが失敗する' do
           other_user
           visit edit_user_path(other_user)
           expect(page).to have_content 'Forbidden access.'
+          expect(current_path).to eq user_path(user)
         end
       end
     end
@@ -101,7 +102,7 @@ RSpec.describe User, type: :system do
   describe 'マイページ' do
     context 'タスクを作成' do
       before do
-        login(user)
+        login_as(user)
       end
       it '新規作成したタスクが表示される' do
         visit new_task_path
