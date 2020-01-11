@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :system do
+  let(:user) { create(:user, email: 'a@example.com') }
+  let(:other_user) { create(:user, email: 'b@example.com') }
   describe 'ログイン前' do
-    let(:user) { create(:user, email: 'a@example.com') }
-    let(:user_a) { create(:user, email: 'b@example.com') }
     describe 'ユーザー新規登録' do
       context 'フォームの入力値が正常' do
         it 'ユーザーの新規作成ができる' do
-          visit '/users/new'
+          visit new_user_path
           fill_in 'Email', with: 'a@example.com'
           fill_in 'Password', with: 'password'
           fill_in 'Password confirmation', with: 'password'
@@ -17,7 +17,7 @@ RSpec.describe User, type: :system do
       end
       context 'メールアドレスが未入力' do
         it 'ユーザーの新規作成が失敗する' do
-          visit '/users/new'
+          visit new_user_path
           fill_in 'Email', with: ''
           fill_in 'Password', with: 'password'
           fill_in 'Password confirmation', with: 'password'
@@ -28,7 +28,7 @@ RSpec.describe User, type: :system do
       context '登録済メールアドレスを使用' do
         it 'ユーザーの新規作成が失敗する' do
           user
-          visit '/users/new'
+          visit new_user_path
           fill_in 'Email', with: 'a@example.com'
           fill_in 'Password', with: 'password'
           fill_in 'Password confirmation', with: 'password'
@@ -39,7 +39,6 @@ RSpec.describe User, type: :system do
     end
   end
   describe 'マイページ' do
-    let(:user) { create(:user, email: 'a@example.com') }
     context 'ログインしていない状態' do
       it 'マイページへのアクセスが失敗する' do
         user
@@ -49,11 +48,9 @@ RSpec.describe User, type: :system do
     end
   end
   describe 'ログイン後' do
-    let(:user) { create(:user, email: 'a@example.com') }
-    let(:user_a) { create(:user, email: 'b@example.com') }
     before do
       user
-      visit '/login'
+      visit login_path
       fill_in 'Email', with: 'a@example.com'
       fill_in 'Password', with: 'password'
       click_button 'Login'
@@ -81,7 +78,7 @@ RSpec.describe User, type: :system do
       end
       context '登録済メールアドレスを使用' do
         before do
-          user_a
+          other_user
         end
         it 'ユーザーの編集が失敗' do
           user
@@ -96,21 +93,20 @@ RSpec.describe User, type: :system do
       context '他ユーザーの編集ページにアクセス' do
         before do
           user
-          visit '/login'
+          visit login_path
           fill_in 'Email', with: 'a@example.com'
           fill_in 'Password', with: 'password'
           click_button 'Login'
         end
         it 'アクセスが失敗する' do
-          user_a
-          visit edit_user_path(user_a)
+          other_user
+          visit edit_user_path(other_user)
           expect(page).to have_content 'Forbidden access.'
         end
       end
     end
   end
   describe 'マイページ' do
-    let(:user) { create(:user, email: 'a@example.com') }
     context 'タスクを作成' do
       before do
         user
